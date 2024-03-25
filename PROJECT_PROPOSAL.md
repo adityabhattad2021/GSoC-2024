@@ -58,7 +58,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
         2. Backend generates a random passphrase string and maps it to the user account. This will later be used to create the identity commitment for the user.
         3. User is acknowledged and redirected to the general dashboard of the voting application.
             
-            ![user registration.png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/user_registration.png)
+            ![user registration.png](assets/user_registration.png)
             
     - **1.2.2 Election Admin Flow**
         1. Registered users can choose to create an election. When they click on create election button, they are prompted to connect their web3 wallet in order make a smart contract call to create election on blockchain, which is necessary for the election admin to have independent control, making our application truly decentralized.
@@ -72,7 +72,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
         3. Election details are sent to the entry point smart contract, from where a new proxy contract is deployed which will be linked to the logic contracts (Ballot and Result Calculators) of the selected algorithm.
         4. Upon successful blockchain transaction, backend is updated with election details metadata and admin is redirected to admin dashboard from where they can manage the election and approve voters.
         
-        ![election admin flow.png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/election_admin_flow.png)
+        ![election admin flow.png](assets/election_admin_flow.png)
         
     - **1.2.3 Voter Flow**
         1. Onboarded users can browse and search available elections.
@@ -87,7 +87,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
             4. Blockchain verifies the ZK proofs to confirm the user is an approved voter who hasn't yet voted. If valid, their vote is registered.
         7. Users can subscribe to an election to be notified of the results via email once it concludes.
         
-        ![voter flow.png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/voter_flow.png)
+        ![voter flow.png](assets/voter_flow.png)
         
     
 - 1.3 Technical Implementation
@@ -102,7 +102,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
     - Utilize NextAuth to handle user authentication in the application.
     - 1.3.1 Architecture
         
-        ![System Architecture Diagram.png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/System_Architecture_Diagram.png)
+        ![System Architecture Diagram.png](assets/System_Architecture_Diagram.png)
         
     - 1.3.2 Frontend Implementation in Next.js/TypeScript
         - 1.3.2.1 Screens
@@ -115,7 +115,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
             - **Election Creation Modal (Protected)**: The modal will contain input field for election title, election description, election type, and start date and duration of the election.
             - **Election Admin dashboard (Protected)**: This will contain list of all the elections created by the users, list of all the voters applied for the election, a button to add candidates for the election, and a button to conclude the election.
                 
-                ![Agora Blockchain Election Dashboard.png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/Agora_Blockchain_Election_Dashboard.png)
+                ![Agora Blockchain Election Dashboard.png](assets/Agora_Blockchain_Election_Dashboard.png)
                 
             - **Add candidate Modal (Protected)**: This will contain input fields for name, description and image of the candidate.
             - **Election Page (Protected)**: This page will contain the election details like start time, end time, number of voters registered for the election, candidates contesting in the elections, etc.
@@ -310,7 +310,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
                 
                 On clicking `Connect Wallet`, a modal like this will show up, allowing the user to connect their browser wallet or create a wallet with their emails.
                 
-                ![Connect Wallet.png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/Connect_Wallet.png)
+                ![Connect Wallet.png](assets/Connect_Wallet.png)
                 
         - 1.3.2.4: Using semaphore SDK to generate zero knowledge proofs on the frontend:
             
@@ -874,7 +874,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
             - Sends email notifications to the subscribed voters using nodemailer, informing them that the election has ended and the results are available.
     4. **View Results**:  Users can view the election results by clicking on a link in the email notification, which takes them to the election page showing the results and stats.
         
-        ![notification flow (1).png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/notification_flow_(1).png)
+        ![notification flow (1).png](assets/notification_flow_(1).png)
         
 - 2.3 Technical Implementation
     - 2.3.1 Backend Subscription Management
@@ -1003,7 +1003,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
             
     - 2.3.3 **Frontend Subscription UI**
         
-        ![Screenshot 2024-03-25 165816.png](Google%20Summer%20of%20Code%202024%20d612ca9f0940431d8941278a88bcbeb9/Screenshot_2024-03-25_165816.png)
+        ![Screenshot 2024-03-25 165816.png](assets/Screenshot_2024-03-25_165816.png)
         
         When the confirm button is clicked we will call the backend route `api/elections/[electionId]/notify` .
         
