@@ -34,7 +34,7 @@ Here is a summary of the proposed improvements:
 1. **Abstraction of Blockchain**: The goal is to partially abstract the blockchain part from the election administrator and fully abstract it from the voter. This will allow users to enjoy the benefits of blockchain technology, such as immutability, without having to worry about their wallet address or blockchain transactions. The user experience will be native and completely anonymous and secure.
 2. **Election Subscription**: Allow voters to subscribe to election results and receive notifications when elections conclude, keeping them engaged and informed.
 3. **Code Refactoring**: Rewrite the Client Side Code in `Nextjs`/ `Typescript` and Organize the Codebase: The current repository is divided into several different folders, such as client, server, `clientAnonymous`, and `serverAnonymous`. Some libraries used in the client, like `rimble-ui`and `libsemaphore`, are long deprecated and not actively maintained anymore. This leads to a poor developer experience and slows down development due to conflicts. Rewriting the client and organizing the codebase properly can solve these issues.
-4. **Connect Anonymous Voting to Multiple Voting Algorithms and Extensively Test Smart Contracts**: Currently, anonymous voting only supports normal general election types. It needs to be integrated with other smart contracts that have implemented multiple election algorithms using the Diamond Multi-Facet Proxy. To gain the trust of users and avoid bugs during usage, an extensive test suite that tests every aspect of the smart contract is required. This will make the smart contract much more reliable.
+4. **Connect Anonymous Voting to Multiple Voting Algorithms and Extensively Test Smart Contracts**: Currently, anonymous voting only supports normal general election types. It needs to be integrated with other smart contracts in the codebase that have implemented multiple election algorithms. To gain the trust of users and avoid bugs during usage, an extensive test suite that tests every aspect of the smart contract is required. This will make the smart contract much more reliable.
 5. **Add More Election Types**: There is still room to add more election types, such as approval voting and quadratic voting, to give users more choices.
 
 By implementing these enhancements, the Election D-App will become more user-friendly, secure, and accessible to a wider audience. The proposed changes will significantly improve the user experience, increase trust in the platform, and contribute to the overall adoption of the project.
@@ -852,9 +852,9 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
   However, I did not specifically mention it because, during development, we are using test tokens anyway. We can later discuss the cost with the mentor and organization admin and add that functionality accordingly.
   
 
-## 2. Election Subscription and Voter Notifications
+# 2. Election Subscription and Voter Notifications
 
-- 2.1 **Motivation and Goals**
+## 2.1 **Motivation and Goals**
 
 Keeping users informed throughout the election process is important factor for good user experience. By introducing an election subscription and notification system, voters can stay updated on the status of elections they are interested in, receiving timely notifications when results are available. This feature aims to improve the overall user experience and increase participation by keeping them informed without the need for constant manual checking.
 
@@ -862,7 +862,7 @@ The primary goals of this feature are:
 
 - Allow voters to subscribe to elections of their choice.
 - Notify subscribed voters when election results are calculated and available.
-- 2.2  **Flow**
+## 2.2  **Flow**
 1. **Election Creation**: When an election is created, the election details including the end date/time are stored in the database.
 2. **Subscription**: Voters can subscribe to elections they are interested in through the UI.
 3. **Cron Job**: A single cron job is set up to run at a frequent interval, such as every minute. This cron job does the following:
@@ -876,8 +876,8 @@ The primary goals of this feature are:
   
   ![notification flow (1).png](assets/notification_flow_(1).png)
   
-- 2.3 Technical Implementation
-- 2.3.1 Backend Subscription Management
+## 2.3 Technical Implementation
+### 2.3.1 Backend Subscription Management
   - Create a `vercel.json`  at the root of client
       
       ```json
@@ -1001,13 +1001,13 @@ The primary goals of this feature are:
       }
       ```
       
-- 2.3.3 **Frontend Subscription UI**
+### 2.3.3 **Frontend Subscription UI**
   
   ![Screenshot 2024-03-25 165816.png](assets/Screenshot_2024-03-25_165816.png)
   
   When the confirm button is clicked we will call the backend route `api/elections/[electionId]/notify` .
 
-- 2.4 **Thought Process and Design Decisions**
+## 2.4 **Thought Process and Design Decisions**
   
 1. Why use cron jobs and not push protocol for subscribing to smart contract event on the blockchain itself?
 
@@ -1020,9 +1020,9 @@ The primary goals of this feature are:
 
   
 
-## 3. Code Refactoring
+# 3. Code Refactoring
 
-### 3.1 Motivation and Goals
+## 3.1 Motivation and Goals
 
 The primary motivation behind the proposed code refactoring is to improve the overall quality and structure of the codebase. The main goals of the refactoring process are:
 
@@ -1032,7 +1032,7 @@ The primary motivation behind the proposed code refactoring is to improve the ov
 
 By achieving these goals, the codebase will become easier to understand, and maintainable for current and future developers working on the project.
 
-### 3.2 Current Codebase Structure
+## 3.2 Current Codebase Structure
 
 The current codebase is divided into multiple folders, including:
 
@@ -1043,9 +1043,9 @@ The current codebase is divided into multiple folders, including:
 
 This structure lacks clarity and leads to duplication of code and functionality.
 
-### 3.3 Proposed Refactoring
+## 3.3 Proposed Refactoring
 
-#### 3.3.1 Migration to Next.js/TypeScript
+### 3.3.1 Migration to Next.js/TypeScript
 
 The client-side code will be migrated from the Plain React to Next.js and TypeScript. This migration will bring several benefits, such as server-side rendering, improved performance, and type safety. Here's an example of how a components might be refactored:
 
@@ -1081,7 +1081,7 @@ const VoterDashboard: NextPage = () => {
 export default VoterDashboard;
 ```
 
-#### 3.3.2 Folder Structure Reorganization
+### 3.3.2 Folder Structure Reorganization
 
 The codebase will be reorganized into a more intuitive and modular structure. Here's the proposed folder structure:
 
@@ -1123,11 +1123,11 @@ The codebase will be reorganized into a more intuitive and modular structure. He
 
 This structure separates the smart contracts (`blockchain`) from the web application (`web-app`) and organizes the web application's source code into logical directories such as `components`, `context`, `hooks`, etc.
 
-#### 3.3.3 Updating Deprecated Client Libraries
+### 3.3.3 Updating Deprecated Client Libraries
 
 Deprecated packages like `rimble-ui`, `libsemaphore`, and `libsemaphore-no-test` will be removed from the codebase. Other packages that are no longer needed, such as `@chakra-ui`, `@reduxjs`, `bootstrap`, and `react-router-dom`, will also be removed. This will help resolve conflicts and improve the overall stability of the application.
 
-### 3.4 Thought Process and Benefits of Refactoring
+## 3.4 Thought Process and Benefits of Refactoring
 
 Why NextJs instead of latest version of plain react?
 - With react we have to handle routing, bundling, server side rendering on our own, setting up all this takes a lot of time, also even if we do properly setup it is so easy to get stuck with unsupported dependacy versions, this creates a conficts when we try to install new packages that depends on latest version of this dependancies, which again takes time to solve.
@@ -1144,28 +1144,104 @@ Is it worth the time?
 By investing time and effort into refactoring the codebase, the Agora Blockchain DApp will be better positioned for future growth and development. The improved codebase will be easier to understand, modify, and extend, enabling faster implementation of new features and enhancements.
 
 
-## 4. Integrating Anonymous Voting with Multiple Algorithms
+# 4. Integrating Anonymous Voting with Multiple Algorithms
 
-- 4.1 Motivation and Goals
-- 4.2 Current State of Anonymous Voting
-- 4.3 Proposed Integration
-    - 4.3.1 Extending Smart Contracts (include code snippets)
-    - 4.3.2 Integrating with Diamond Multi-Facet Proxy (include a diagram)
-- 4.4 Smart Contract Testing
-    - 4.4.1 Unit Testing (include sample test cases)
+## 4.1 Motivation and Goals
+ 
+The current Agora Blockchain DApp supports various election types and result calculation algorithms implemented in Solidity. However, anonymous voting is only available for one general type. Integrating anonymous voting with multiple election algorithms will provide users and election creators with the flexibility to create different types of elections while maintaining voter privacy. The goal is to have anonymous voting support multiple election types, enhancing the overall functionality of the platform.
+  
+## 4.2 Current State of Anonymous Voting
+  
+The current implementation of anonymous voting is limited to a single election type. While the codebase includes several ballot types and result calculation algorithms implememted in solidity, they lack integration with the anonymous voting feature. This limitation restricts the options available to users and election creators, as they cannot leverage the benefits of anonymous voting across different election types.
+  
+## 4.3 Proposed Integration
+### 4.3.1 Extending Smart Contracts (include code snippets)
 
-## 5. Adding New Election Types
+  To integrate anonymous voting with multiple election algorithms, some parts existing smart contracts need to be extended to make call to Semaphore Smart Contract
+  1. ElectionFactory
+  2. ElectionContract
 
-- 5.1 Motivation and Goals
-- 5.2 Proposed New Election Types
-    - 5.2.1 Approval Voting
-        - 5.2.1.1 Algorithm Overview (include pseudocode)
-        - 5.2.1.2 Smart Contract Implementation
-        - 5.2.1.3 Frontend Integration
-    - 5.2.2 Quadratic Voting
-        - 5.2.2.1 Algorithm Overview (include mathematical formulas)
-        - 5.2.2.2 Smart Contract Implementation
-        - 5.2.2.3 Frontend Integration
+
+This will extend the support of anonymous voting for different election types.
+### 4.3.2 Implementing EIP 1167 to save gas during creation of new elections
+
+
+Deploying multiple instances of the election implementation contract for different election types can be gas-intensive. To optimize gas consumption, I propose to use the EIP 1167 (Minimal Proxy Contract) standard. EIP 1167 allows for the creation of lightweight proxy contracts that delegate calls to a master contract, reducing the gas cost of deploying multiple instances.
+It is different proxy contract, the when these contract create (cloned) using the EIP1167 standard, while performing any function on the implementation contract, they do not have to perform a lookup operation for the address of implementation smart contract, as while being created the address of the implementation contract is added to byte code of this proxys, which further saves gas.
+By utilizing this standard, the Agora Blockchain DApp can efficiently deploy anonymous voting-enabled election contracts while minimizing gas expenses for the election orgainzer.
+
+![Proposed Smart Contract Structure](<assets/new smart contract arch.png>)
+
+In this structure, there is chaining of delegate calls, first from proxy to election implementation contract and then from election implementation contract to ballot contract and result calulator contract.
+```
+pragma solidity ^0.8.0;
+
+contract A {
+    uint public num;
+    
+    function setNum(uint _num) public {
+        num = _num;
+    }
+}
+
+contract B {
+
+    uint public num;
+    function setNum(address _contractA, uint _num) public {
+        (bool success, ) = _contractA.delegatecall(
+            abi.encodeWithSignature("setNum(uint256)", _num)
+        );
+        require(success, "Delegatecall to A failed");
+    }
+}
+
+contract C {
+
+    uint public num;
+    function setNum(address _contractB, address _contractA, uint _num) public {
+        (bool success, ) = _contractB.delegatecall(
+            abi.encodeWithSignature("setNum(address,uint256)", _contractA, _num)
+        );
+        require(success, "Delegatecall to B failed");
+    }
+}
+```
+When we call updateNum on contracts C, It delegates calls to Contract B which again delegate calls to contract A, which updates the number and when we query the num of contract C we get the updated value.
+
+## 4.4 Smart Contract Testing
+### 4.4.1 Unit Testing (include sample test cases)
+Unit tests will be written to verify the functionality of individual smart contract functions. Sample test cases include:
+
+- Test case 1: Verify that only eligible voters can cast votes anonymously.
+- Test case 2: Ensure that the vote casting function correctly records anonymous votes.
+- Test case 3: Validate that the result calculation function accurately tallies anonymous votes.
+- Test case 4: Test the integration of anonymous voting with different election types.
+
+I will aim for as extensive test coverage as possible.
+
+### Thought Process and Design Decisions
+**There is already a Diamond Proxy Structure Implementation Present in the codebase, why not use it**?
+
+As we are handling user auth and election storage/fetching using a seperate backend, It removes lot of facets of the diamond proxy pattern, further more I plan to add the addresses of the ballot and the result calculator contract in the election implementation contract itself, and will conditionally delegate call the ballot and result calculator contract from the election implementation contract itself, so this eliminate the need for having get ballot and result calculator facet as well. . With only one function remaining in the election factory, using the Diamond Proxy contract would unnecessarily increase complexity.
+
+**Why choose EIP1167 instead of normal proxy contract?**
+
+
+EIP1167 are more gas efficient than normal proxy contract, as when a proxy contract has to make a call to implementation contracts it first has to perform a lookup in its storage for the implementation contract address, which costs gas, EIP1167 proxys avoid this as the implementation contract address is added to the proxy's byte code while creating it, this way the proxies have to perform no lookup operation while calling the implementaion smart contracts.
+One consideration is that EIP 1167 proxies have no scope for upgradability, as they are permanently bound to the same implementation contract. However, in our use case, once a user creates an election, there should be no need for upgrades. Additionally, these contracts become obsolete after the elections conclude.
+
+# 5. Adding New Election Types
+
+## 5.1 Motivation and Goals
+## 5.2 Proposed New Election Types
+### 5.2.1 Approval Voting
+#### 5.2.1.1 Algorithm Overview (include pseudocode)
+#### 5.2.1.2 Smart Contract Implementation
+#### 5.2.1.3 Frontend Integration
+### 5.2.2 Quadratic Voting
+#### 5.2.2.1 Algorithm Overview (include mathematical formulas)
+#### 5.2.2.2 Smart Contract Implementation
+#### 5.2.2.3 Frontend Integration
 
 # Outcomes
 
