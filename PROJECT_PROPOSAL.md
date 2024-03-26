@@ -189,7 +189,7 @@ This can be implemented by adding `middleware.ts` file in the root of our NextJs
  }
  ```
           
-1. To be able use/display users information throughout the client, we will need to use the `useSession` hook, first we have to expose the session context, **`<SessionProvider />`**, at the top level of our application:
+1. To be able use/display users information throughout the client, we will need to use the `useSession` hook, for that first we have to expose the session context, **`<SessionProvider />`**, at the top level of our application:
  
  ```tsx
  export default async function RootLayout({
@@ -208,7 +208,7 @@ This can be implemented by adding `middleware.ts` file in the root of our NextJs
  }
  ```
           
-1. Then we can use the user information in any component like:
+2. Then we can use the user information in any component like:
           
 ```tsx
 import { useSession } from "next-auth/react"
@@ -223,7 +223,8 @@ const { data: session } = useSession()
  ```
           
   
-#### 1.3.2.3: Add functionality to connect wallet for the election organizer: To streamline the development of the connect wallet flow and make wallet connection experience smoother by adding functionality to generate a wallet on fly using email address, we can use walletconnect’s `web3modal` .
+#### 1.3.2.3: Add functionality to connect wallet for the election organizer
+To streamline the development of the connect wallet flow and make wallet connection experience smoother by adding functionality to generate a wallet on fly using email address, we can use walletconnect’s `web3modal` .
       
 To set it up we have to:
 
@@ -271,32 +272,32 @@ return children
 }
 ```
     
-1. To make `useWeb3Modal` hook available in our entire application we will have to  expose this **`<Web3Modal />`** context, at the top level of our application:
+2. To make `useWeb3Modal` hook available in our entire application we will have to  expose this **`<Web3Modal />`** context, at the top level of our application:
     
-    ```tsx
-    import './globals.css'
-    
-    import { Web3Modal } from '../context/web3modal'
-    
-    export const metadata = {
-      title: 'Web3Modal',
-      description: 'Web3Modal Example'
-    }
-    
-    export default function RootLayout({ children }) {
-      return (
-      <SessionProvider session={session}>
-          <html lang="en">
-            <body className={inter.className}>
-    		       <Web3Modal>{children}</Web3Modal>
-            </body>
-          </html>
-        </SessionProvider>
-      )
-    }
-    ```
+ ```tsx
+ import './globals.css'
+ 
+ import { Web3Modal } from '../context/web3modal'
+ 
+ export const metadata = {
+   title: 'Web3Modal',
+   description: 'Web3Modal Example'
+ }
+ 
+ export default function RootLayout({ children }) {
+   return (
+   <SessionProvider session={session}>
+       <html lang="en">
+         <body className={inter.className}>
+ 		       <Web3Modal>{children}</Web3Modal>
+         </body>
+       </html>
+     </SessionProvider>
+   )
+ }
+ ```
           
-2. Then we can simple use `useWeb3Modal` hook to trigger the wallet connection modal
+3. Then we can simple use `useWeb3Modal` hook to trigger the wallet connection modal
           
  ```tsx
  import { useWeb3Modal } from '@web3modal/ethers/react'
@@ -313,11 +314,11 @@ return children
  }
  ```
   
- On clicking `Connect Wallet`, a modal like this will show up, allowing the user to connect their browser wallet or create a wallet with their emails.
+On clicking `Connect Wallet`, a modal like this will show up, allowing the user to connect their browser wallet or create a wallet with their emails.
  
- ![Connect Wallet.png](assets/Connect_Wallet.png)
+![Connect Wallet.png](assets/Connect_Wallet.png)
           
-#### 1.3.2.4: Using semaphore SDK to generate zero knowledge proofs on the frontend:
+#### 1.3.2.4: Using semaphore SDK to generate zero knowledge proofs on the frontend
       
 What is Semaphore?
 
@@ -351,7 +352,9 @@ We can use these three in combination to implement our anonymous voting flow:
 1. When the voter applies for the an election, and is approved by the admin an deterministic identity is created for the user using combination of their verified `email` and a `secret-key` stored on the backend. 
 2. The identity commitment (i.e. Public Value) is added to the on-chain group that corresponding to an particular election.
 3. Then, when a approved user clicks on cast vote on the client:
-- The group corresponding to the election is fetched from the blockchain.
+
+
+  - The group corresponding to the election is fetched from the blockchain.
               
 ```tsx
 import { Group } from "@semaphore-protocol/group"
@@ -366,7 +369,7 @@ function getGroupId(electionId:number):Group{
 }
 ```
       
-- The identity is re-generated on the using the server actions and identity commitment is retrieved on the client.
+  - The identity is re-generated on the using the server actions and identity commitment is retrieved on the client.
               
 ```tsx
 // Generate identity commitment using secret key and email
@@ -452,7 +455,7 @@ const { proof, merkleTreeRoot, nullifierHash } = await generateProof(
 
 - Setting up Prisma as ORM:
 
-`prisma/schema.prisma` file:
+1. `prisma/schema.prisma` file:
           
 ```tsx
 datasource db {
@@ -535,7 +538,7 @@ model VerificationToken {
 }
 ```
           
-To set up Prisma client we need to create new file `lib/prisma.ts` as follows:
+2. To set up Prisma client we need to create new file `lib/prisma.ts` as follows:
           
 ```tsx
 import { PrismaClient } from '@prisma/client';
@@ -559,7 +562,7 @@ As we provide our users with two options to login/register:
 1. Sign In with Google
 2. Email and Password
 
-- We will have to create two files in the root of our project
+We will have to create two files in the root of our project:
 
 1. auth.config.ts
 
@@ -712,7 +715,7 @@ export { GET, POST } from "@/auth";
           
 This route will catch all authentication related requests.
           
-- After this we will create server actions for `login` , `register` and `verify-email` that will be used from the corresponding pages on the client.
+*After this we will create server actions for `login` , `register` and `verify-email` that will be used from the corresponding pages on the client.*
 
 
 #### 1.3.3.3: Handle user related routes
@@ -751,7 +754,7 @@ export async function POST(req:Request){
   - Route to register as a voter to the election: `api/election/[electionId]/register`
   - Route to subscribe  to get results of the election when declared  `api/elections/[electionId]/notify`
   - Route to approve a voter for election: `api/elections/[electionId]/approve`
-- 
+ 
 ### 1.3.4 Smart Contract Interactions
   
 On the smart contract we will need to:
@@ -766,6 +769,7 @@ On the smart contract we will need to:
 
 </aside>
   
+
 1. Add a state variable to hold the address of our semaphore smart contract.
       
 ```tsx
@@ -837,21 +841,22 @@ function vote(
 
 ```
       
-## 1.4 Thought Process and Design Decisions:**
-- Why do we need a backend when all the data can be directly stored and fetched from the blockchain?
+## 1.4 Thought Process and Design Decisions:
+#### Why do we need a backend when all the data can be directly stored and fetched from the blockchain?
   
   We need a backend because we cannot rely on the blockchain to fetch all the information needed to render our UI efficiently. By maintaining a database to store necessary information, we can efficiently implement logic to protect routes on the frontend and handle user authentication using email addresses. This way, we do not need to fetch the user authentication status for every single user.
   
   Maintaining a separate backend also allows us to abstract the blockchain wherever necessary, resulting in a more native experience for a large portion of internet users who are not familiar with web3.
   
-- Why not directly submit proofs from the client to the blockchain?
+#### Why not directly submit proofs from the client to the blockchain?
   1. Blockchain abstraction: If we send the proofs directly to the blockchain, it will require users to have a wallet and interact with the blockchain. This user experience will alienate many potential users who are not familiar with blockchain technology.
   2. User anonymity is compromised: Even if we choose to make connecting a wallet necessary for voters and have them make the vote call from the client, the transaction can still be linked to their wallet address, which is exactly what we are trying to avoid with our anonymous voting flow. Using the backend as a middle layer to send proofs, we use a common private key to send proofs for all users. This way, the transaction will only be linked to the common wallet and not the user, resulting in true user anonymity.
-- Why did I choose to exclude user KYC and have the election admin approve users manually?
+   
+#### Why did I choose to exclude user KYC and have the election admin approve users manually?
   1. The scope of our application should initially be small organizations, communities, etc. Here, the verification requirements can vary greatly for different types of users, and this cannot be anyways covered by basic KYC all the time.
   2. If we consider implementing KYC we should keep it separate from our Agora Blockchain application to avoid doing multiple things in one repository and to keep reusability in mind.
   3. For automation of voter approval, we can later provide a single API to election admins, using which they could add checks and have all applications processed automatically using defined rules. Developing this is a significant task, so I put it out of scope to focus on implementing a good base first, but we can surely add it to the TODO list for our project.
-- How are transaction costs for making a vote call compensated?
+#### How are transaction costs for making a vote call compensated?
   
 I have given it some thought, and I believe the cost of conducting an election should be borne by the election organizer. We can make them pay while making the createElection call itself by adding one extra require statement inside the createElection function.
   
@@ -1021,11 +1026,11 @@ When the confirm button is clicked we will call the backend route `api/elections
 
 ## 2.4 **Thought Process and Design Decisions**
   
-1. Why use cron jobs and not push protocol for subscribing to smart contract event on the blockchain itself?
+#### Why use cron jobs and not push protocol for subscribing to smart contract event on the blockchain itself?
 
   Using push protocol requires us to create a channel on https://app.push.org/channels and in order for the users to receive  notification the users have to subscribe to our channel on their dapp, to use the push dapp the users need to have web3 wallet, not only that it also requires them constantly check the push dapp, which would not significantly improve the user experience compared to implementing notifications within our own application, yes we can add a notifications bar UI to our application but then it would still require users to check the application constantly.
 
-2. Why use vercel cron jobs?
+#### Why use vercel cron jobs?
   - Vercel cron jobs are easy to set up if the client is deployed on Vercel.
   - Vercel offers a generous free plan that is sufficient for our use case.
 
@@ -1140,7 +1145,7 @@ Deprecated packages like `rimble-ui`, `libsemaphore`, and `libsemaphore-no-test`
 
 ## 3.4 Thought Process and Benefits of Refactoring
 
-Why NextJs instead of latest version of plain react?
+#### Why NextJs instead of latest version of plain react?
 - With react we have to handle routing, bundling, server side rendering on our own, setting up all this takes a lot of time, also even if we do properly setup it is so easy to get stuck with unsupported dependacy versions, this creates a conficts when we try to install new packages that depends on latest version of this dependancies, which again takes time to solve.
 NextJs solves some of this problems out of box.
 Reason to use NextJs over other frameworks?
@@ -1148,7 +1153,7 @@ The most important factors I considered while choosing NextJs were:
 - Rich community: NextJs has a very big community, which can be useful when we face any errors and have to ask for help.
 - NextJs API routes: In the new version which I propose we need to maintain a backend, and a database, if not NextJs we would have needed to setup another directory for handling our backend APIs.
 
-Why remove deprecated and unnecessary packages, if they do not cause any problem now?
+#### Why remove deprecated and unnecessary packages, if they do not cause any problem now?
 Removing deprecated and unnecessary packages will reduce the overall complexity of the codebase and minimize conflicts. This will lead to a more stable and maintainable application.
 
 Is it worth the time?
@@ -1360,12 +1365,12 @@ describe("# vote", () => {
 
 I will aim for as extensive test coverage as possible.
 
-### Thought Process and Design Decisions
-**There is already a Diamond Proxy Structure Implementation Present in the codebase, why not use it**?
+### 4.5 Thought Process and Design Decisions
+#### There is already a Diamond Proxy Structure Implementation Present in the codebase, why not use it?
 
 As we are handling user auth and election storage/fetching using a seperate backend, It removes lot of facets of the diamond proxy pattern, further more I plan to add the addresses of the ballot and the result calculator contract in the election implementation contract itself, and will conditionally delegate call the ballot and result calculator contract from the election implementation contract itself, so this eliminate the need for having get ballot and result calculator facet as well. . With only one function remaining in the election factory, using the Diamond Proxy contract would unnecessarily increase complexity.
 
-**Why choose EIP1167 instead of normal proxy contract?**
+#### Why choose EIP1167 instead of normal proxy contract?
 
 
 EIP1167 are more gas efficient than normal proxy contract, as when a proxy contract has to make a call to implementation contracts it first has to perform a lookup in its storage for the implementation contract address, which costs gas, EIP1167 proxys avoid this as the implementation contract address is added to the proxy's byte code while creating it, this way the proxies have to perform no lookup operation while calling the implementaion smart contracts.
@@ -1570,13 +1575,13 @@ async function handleSubmit(votingData){
 }
 ```
 ## 5.3 Thought Process and Voting Algorithm Selection
-**Why approval voting?**
+#### Why approval voting?
 
 1. It provides a more nuanced view of voter preferences compared to the traditional single vote system. With approval voting, voters can indicate support for multiple candidates, allowing for a more diverse and representative result.
 2. Approval voting is a simple and easy-to-understand algorithm. This makes it accessible to a wider range of voters who may not be familiar with more complex voting systems. This can lead to increased voter participation and engagement.
 
 
-**Why quadratic voting?**
+#### Why quadratic voting?
 
 
 Quadratic Voting is an innovative approach to voting that has gained significant attention in recent years. It is a voting system that allows participants to vote on issues, projects, or candidates with a certain number of credits. However, unlike traditional voting systems where each vote carries the same weight, in Quadratic Voting, the cost of casting additional votes is not linear but quadratic. This means that the marginal cost of each additional vote is far higher than the previous one.
@@ -1590,7 +1595,7 @@ Quadratic Voting is an excellent tool for situations where the majority's opinio
 
 # Outcomes
 
-1. **Project Impact**
+### **Project Impact**
 
 a. The proposed improvements will make the Agora Blockchain DApp more accessible to non-technical users by abstracting blockchain complexities, providing a native user experience that is completely anonymous and secure.
 
@@ -1603,7 +1608,7 @@ c. Rewriting the client-side code in Next.js/TypeScript and organizing the codeb
 The proposed changes will contribute to wider adoption of the Agora Blockchain DApp as a trusted, user-friendly, and feature-rich decentralized voting solution.
 
 
-2. **Future Scope and Maintainability**
+### **Future Scope and Maintainability**
 
 a. The refactored codebase in Next.js/TypeScript will be more modular and easier for future contributors to understand and build upon.
 
