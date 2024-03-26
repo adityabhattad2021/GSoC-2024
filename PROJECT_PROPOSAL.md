@@ -8,12 +8,12 @@ Name: Aditya Bhattad
 
 Email: adityabhattad18@gmail.com
 
-College Name: [Shri Ramdeobaba College of Engineering and Management](http://www.rknec.edu/)
+Address: Gittikhadan Chowk, Katol Road, Nagpur 440013.
 
 
 ### Education
 
-University: Nagpur University
+College Name: [Shri Ramdeobaba College of Engineering and Management](http://www.rknec.edu/)
 
 Degree: Bachelor of Technology in Computer Science and Engineering
 
