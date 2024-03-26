@@ -101,7 +101,8 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
 - Utilize Semaphore SDK to develop anonymous voting flow
 - Use Supabase PostgreSQL to store user info and election metadata.
 - Utilize NextAuth to handle user authentication in the application.
-- 1.3.1 Architecture
+
+### 1.3.1 Architecture
   
 ![System Architecture Diagram.png](assets/System_Architecture_Diagram.png)
   
