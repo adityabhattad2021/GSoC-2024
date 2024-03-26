@@ -2,7 +2,7 @@
 
 ## Project Proposal - Agora Blockchain
 
-### Personal Details
+### Contact Information
 
 Name: Aditya Bhattad
 
@@ -10,13 +10,33 @@ Email: adityabhattad18@gmail.com
 
 College Name: [Shri Ramdeobaba College of Engineering and Management](http://www.rknec.edu/)
 
+
+### Education
+
+University: Nagpur University
+
 Degree: Bachelor of Technology in Computer Science and Engineering
 
 Expected Graduation Year: 2025
 
-# Chosen Idea: Agora Blockchain
+*The Cumulative Grade Point Average (CGPA) is a grading system used in Indian colleges and universities to evaluate a student's overall academic performance. It is calculated on a 10-point scale.*
 
-## 1.Introduction
+CGPA: 8.9 (till 5th semester)
+
+
+### Commitment
+
+**How many hours will you work per week on your GSoC project?**
+I anticipate being able to dedicate approximately 30 hours per week to this project during the GSoC period. 
+
+**Do you have any commitments during the GSoC Period ?**
+I have no other major commitments during this time and will be fully focused on the project.
+
+# Chosen Project: Agora Blockchain
+
+## Chosen Idea:
+
+### 1.Introduction
 
 **1.1 Project Overview**
 
@@ -38,6 +58,95 @@ Here is a summary of the proposed improvements:
 5. **Add More Election Types**: There is still room to add more election types, such as approval voting and quadratic voting, to give users more choices.
 
 By implementing these enhancements, the Election D-App will become more user-friendly, secure, and accessible to a wider audience. The proposed changes will significantly improve the user experience, increase trust in the platform, and contribute to the overall adoption of the project.
+
+## **Vision and Project Impact**
+
+Why I choose Agora Blockchain?
+I have been actively writing code for around 2.5 years. Since the beginning, one of my main goals has been to contribute to the betterment of the internet and make this digital revolution more accessible. With this aim in mind, I discovered blockchain technology about 1.5 years ago. I learned how it can solve pressing internet challenges related to trust, centralization, and transparency. 
+
+While exploring blockchain use cases, I realized that voting is one of the most relevant applications. In fact, the first major project I worked on was an election dapp: https://devpost.com/software/decentralized-voting-system-v83rphin late 2022 as part of chainlink fall hackathon.
+
+Last year, while exploring opportunities to participate in Google Summer of Code, I discovered AOSSIE and Agora Blockchain. I was thrilled to find a project that aligned with my vision of leveraging blockchain for secure and transparent voting.
+
+Although I was not selected for GSoC last year, I have been following the project closely. The introduction of anonymous signaling for zero-knowledge voting by last year's GSoC contributor Mr. Kumar Harsh made the project even more intriguing. It allows the community to benefit from transparency and immutability, while enabling users to cast votes anonymously, making it safer and more comfortable for them to vote honestly.
+
+This year, my proposed ideas of implementing notifications, abstraction, and codebase improvements aim to advance the project further. The thought of this project one day being used by communities to securely conduct elections motivates me to contribute to this project. I believe Agora Blockchain is important because it aims to leverage blockchain to enable open, tamper-proof voting processes that protect voter privacy. I am excited by the opportunity to help drive this important innovation forward.
+
+## Motivation
+
+Over the past 2.5 years, I have developed a strong interest for blockchain and its potential to revolutionize various industries. This interest has driven me to gain extensive hands-on experience in developing blockchain applications through personal projects and participating in numerous web3 hackathons.
+
+My deep familiarity with the Agora Blockchain codebase, gained through closely following the project for the past year, enables me to quickly understand the existing architecture and efficiently implement the proposed enhancements. This knowledge will allow me to hit the ground running and deliver high-quality results within the project timeline.
+
+Moreover, my strong technical skills in relevant technologies such as Solidity, Next.js, and Ethereum,  equip me with the necessary expertise to tackle the challenges of implementing notifications, abstraction, and codebase improvements in Agora Blockchain.
+
+Beyond technical proficiency, what truly sets me apart is my commitment to the project's vision and my drive to take it to new heights. I am deeply passionate about leveraging blockchain technology to revolutionize the voting process, ensuring transparency, security, and accessibility. This alignment with Agora Blockchain's mission fuels my motivation to deliver exceptional results and contribute to the project's long-term success.
+
+Furthermore, my experience in collaborating with diverse teams through open-source projects and hackathons has honed my communication and problem-solving skills. I am confident in my ability to work effectively with the Agora Blockchain community, and mentor, to ensure smooth project execution and successful integration of the proposed features.
+
+## Past Experience In Software Development
+
+### Deduplication layer on Filecoin (ETHIndia 2022 Winner)
+It solves problem of duplication IPFS, Using it if multiple users are storing the same file on IPFS, they all can share the cost of storing the file and there will be only copy (excluding fault-tolerance requirement) of that file exsists in the network.
+
+It uses: Solidity, NodeJs, Typescript, ReactJs, Hardhat, IPFS/Filecoin
+https://devfolio.co/projects/deduplication-layer-on-filecoin-4bb1
+
+### Decentralized Voting System (Chainlink Fall Hackathon 2022)
+
+This application is a 100% transparent voting system, which is fully secured by blockchain's immutable nature and is impossible to tamper with.
+It uses Chainlink keepers to automatically conclude the voting rounds after the preset amount of time is passed. It not only conducts a single voting round but also stores all the winner data of the previous round on the chain.
+
+It uses: Ether.js, Hardhat, IPFS, NextJs, Solidity, Wagmi
+https://devpost.com/software/decentralized-voting-system-v83rph
+
+
+### personatokens.ai (Superhacks 2023)
+Personatokens.ai is a marketplace where users can create
+and trade AI characters as NFTs. These AI characters learn
+and evolve through conversations – the more you interact
+with them, the smarter and more engaging they become.
+
+It uses: solidity, openai, nextjs, ai, ethereum, langchain, redis, upstash
+https://ethglobal.com/showcase/personatokens-ai-szkan
+
+### SuperWallet (ETHOnline hackathon 2023 Winner)
+SuperWallet is a secure, unified multi-chain transaction
+system, allowing users to initiate payments using
+coins/tokens across multiple chains simultaneously with
+ease
+
+It uses: blockchain, ethereum, payment, multichain, axelar general message
+passing
+https://ethglobal.com/showcase/superwallet-wvqtj
+
+### PeerPlay (HackFS 2023 Winner)
+Blockchain based NFT gated video sharing platform.
+
+It uses: video sharing, blockchain, push protocol, livepeer, ens
+https://ethglobal.com/showcase/peerplay-jqwpa
+
+### Contributions to Agora Blockchain
+
+- Pull Request #54: [**Fix navigation on signup/register, fix styling on dashboard and add hardhat-deploy**](https://gitlab.com/aossie/agora-blockchain/-/merge_requests/54) : The first two commits fixes issue [#36](https://www.notion.so/aossie/agora-blockchain/-/issues/36)
+ by redirecting the user to the dashboard automatically after successful registration on the Auth page. I used the useNavigate hook from react-router-dom to implement this feature. Further I have added the hardhat-deploy functionality to the server. With this update, contracts can now be deployed using a simple command: `npx hardhat deploy --network localhost`
+. This replaces the previous command: `npx hardhat run --network localhost scripts/deploy.js`
+. The deployment scripts are now maintained in a separate folder called deploy, making it easier to navigate. Additionally, the addresses of deployed contracts are automatically updated in the frontend folder with every new deployment. This eliminates the need for manual updates.
+- Pull Request #88: [**Improving Frontend Codebase by Eliminating Hardcoded Values**](https://gitlab.com/aossie/agora-blockchain/-/merge_requests/88) :  
+Here I Removed all the hardcoded values and improved UI of the DApp.
+- Pull Request #110: [**Implemented the Oklahoma Voting System on frontend.**](https://gitlab.com/aossie/agora-blockchain/-/merge_requests/110)
+- Pull Request #111: [**Optimized smart contracts**](https://gitlab.com/aossie/agora-blockchain/-/merge_requests/111) : Earlier, the smart contract deployment structure was flawed as it was deploying multiple Result Calculator and Election Ballots, even when the code could be easily reused. This approach caused the smart contract size to increase beyond the expected limit and exceed the smart contract max size limit introduced in EIP-170.
+To resolve this issue, I made the following changes:
+  - Instead of deploying all the contracts together, I deployed each contract separately.
+  - I passed the address of each contract to the constructor, instead of deploying them from the constructor.
+  - For each election, I did not deployed different ballots and result calculators but reused already deployed ballot and result calculator.
+  - Whenever a ballot or result calculator is needed, I return the address, typecasted into the respective ballot or result calculator type.
+- Pull Request #111: [**Implemented the Range Voting System on frontend.**](https://gitlab.com/aossie/agora-blockchain/-/merge_requests/112)
+- Pull Request #11: [**Fix Webpack Configuration for Missing Polyfills with React-Rewired.**](https://github.com/AOSSIE-Org/Agora-Blockchain/pull/11)
+- Pull Request #12: [**Fix register.js by correctly using ethersjs to connect to metamask.**](https://github.com/AOSSIE-Org/Agora-Blockchain/pull/12)
+- Pull Request #27 [**Fix OneVote and VotingProcess.sol Issues and Implement ZK Voting Client Enhancements.**](https://github.com/AOSSIE-Org/Agora-Blockchain/pull/28)
+- Pull Request # 29 [**Integrate Web3Modal for Wallet Connection Handling on ZK Voting Part of Frontend.**](https://github.com/AOSSIE-Org/Agora-Blockchain/pull/30)
+
 
 ## Detailed Proposal Description
 
@@ -1592,18 +1701,13 @@ Quadratic Voting is an excellent tool for situations where the majority's opinio
 
 *By showcasing the practical implementation of these unique voting methods, our DApp can contribute to the broader discussion on blockchain governance and inspire further experimentation and adoption.*
 
-
-# Outcomes
-
-### **Project Impact**
+### Outcomes
 
 a. The proposed improvements will make the Agora Blockchain DApp more accessible to non-technical users by abstracting blockchain complexities, providing a native user experience that is completely anonymous and secure.
 
 b. Implementing election subscription functionality will keep voters more engaged and informed, increasing overall participation.
 
-
 c. Rewriting the client-side code in Next.js/TypeScript and organizing the codebase will significantly improve developer experience, code maintainability, and development speed.
-
 
 The proposed changes will contribute to wider adoption of the Agora Blockchain DApp as a trusted, user-friendly, and feature-rich decentralized voting solution.
 
@@ -1618,3 +1722,79 @@ c. Organizing the codebase and improving documentation will make the project mor
 
 Finally, I am committed to the long-term success of this project and will continue to maintain and promote it beyond the GSoC program to foster a thriving community around the Agora Blockchain DApp.
 
+# Schedule of Deliverables
+
+## Community Bonding Period (May 2 - May 28)
+
+- Further familiarize myself with the project's goals from the mentor’s perspective.
+- Get to know my mentor and establish regular communication.
+- Identify any potential roadblocks and devise solutions.
+
+### Week 1 (May 28 - June 4)
+
+- Discuss and finalize the project plan with the mentor.
+- Setup and configure the development environment.
+- Start implementing more voting algorithms.
+
+
+### Week 2 and Week 3 (June 5 - June 18)
+- Itegrate all the voting algorithms present in the codebase with the anonymous voting system.
+- Modify relavent the smart contracts to Implementing EIP 1167 .
+- Write comprehensive tests for the smart contracts to ensure their correctness and security.
+
+### Week 4 (June 19 - June 25)
+
+- Add the proposed election types (i.e. Quadratic Voting and Approval Voting) in the system.
+- Update the user interface and documentation to reflect the added election types.
+
+### Week 5 (June 25 - July 1)
+
+- Fix any bugs and Implement any backlogs (If present).
+- Prepare a documentation outlining the project made so far.
+- Submit the report for evaluation and discuss any feedback received from the mentors.
+
+### Week 6 July 2- July 8)
+
+- Implement the suggestions given by the mentor.
+- Prepare a documentation outlining the project made so far.
+- Submit the report for evaluation and discuss any feedback received from the mentors.
+
+### Week 7 (July 9 - July 15)
+
+- Abstract Blockchain Part from Election Administrator and Voter
+- Work on abstracting the blockchain part from the election administrator, making it easier for them to manage elections without worrying about the underlying blockchain technology.
+- Write unit tests.
+
+
+### Week 8 (July 16 - July 22)
+
+- Similarly, abstract the blockchain part from the voter, ensuring a native, anonymous, and secure user experience.
+- Write unit tests.
+
+### Week 9 (July 23 - July 29)
+
+- Plan the implementation of the Notification feature.
+- Starting working on the implementation.
+
+### Week 10 (July 30 - August 4)
+
+- Continue working on the notifications feature.
+- Test and refactor the implemented features regularly.
+
+
+### Week 11 (August 4 - August 10)
+
+- Fully implement election subscription feature, allowing users to receive notifications about upcoming elections and relevant updates.
+- Ensure that the subscription feature is secure, user-friendly, and respects user privacy.
+
+
+### Week 12 (August 11 - August 17)
+- Fix any bugs and make final refactors.
+- Add extensive documentation to the readme of the project.
+
+### Week 13 (August 17 - August 23)
+- Buffer week to makeup for delays (If any) in the initial plan.
+- Final GSoC 2024 Submission.
+
+
+### Thankyou.
