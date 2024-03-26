@@ -43,7 +43,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
 
 ## 1. Abstraction of Blockchain
 
-- **1.1 Motivation and Goals**
+## **1.1 Motivation and Goals**
 
 In 2024, abstraction plays a crucial role in the adoption of blockchain-powered applications. Users should be able to benefit from immutability and security without needing to understand the underlying blockchain technology. 
 
@@ -60,7 +60,7 @@ The goals of this part of the project are:
       
       ![user registration.png](assets/user_registration.png)
       
-- **1.2.2 Election Admin Flow**
+### **1.2.2 Election Admin Flow**
   1. Registered users can choose to create an election. When they click on create election button, they are prompted to connect their web3 wallet in order make a smart contract call to create election on blockchain, which is necessary for the election admin to have independent control, making our application truly decentralized.
   To make our application more accessible we can enable functionality that will allow the user to create wallet on fly using their connected email addresses.
   2. Once the wallet is connected and linked to their account, the election admin will:
@@ -74,7 +74,7 @@ The goals of this part of the project are:
   
   ![election admin flow.png](assets/election_admin_flow.png)
   
-- **1.2.3 Voter Flow**
+### **1.2.3 Voter Flow**
   1. On boarded users can browse and search available elections.
   2. To vote in the particular election, users first have to submit application for approval from the admin on their election page.
   3. Users wait for approval from the election admin.
@@ -90,7 +90,7 @@ The goals of this part of the project are:
   ![voter flow.png](assets/voter_flow.png)
   
 
-- 1.3 Technical Implementation
+## 1.3 Technical Implementation
 
 Assuming we are rewriting the client in Next.js, here is an overview of the technical implementation:
 
@@ -104,8 +104,8 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
   
   ![System Architecture Diagram.png](assets/System_Architecture_Diagram.png)
   
-- 1.3.2 Frontend Implementation in Next.js/TypeScript
-  - 1.3.2.1 Screens
+### 1.3.2 Frontend Implementation in Next.js/TypeScript
+#### 1.3.2.1 Screens
       
       Frontend will have the following screens
       
@@ -120,7 +120,7 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
       - **Add candidate Modal (Protected)**: This will contain input fields for name, description and image of the candidate.
       - **Election Page (Protected)**: This page will contain the election details like start time, end time, number of voters registered for the election, candidates contesting in the elections, etc.
       - **Vote Modal (Protected)**: This will contain input field to choose candidate from the all the candidates to vote in the elections, we will have to conditionally render multiple types of UIs here based on the election algorithm.
-  - 1.3.2.2 User Authentication with NextAuth.js (Backend side of the logic is discussed separately).
+  #### 1.3.2.2 User Authentication with NextAuth.js (Backend side of the logic is discussed separately).
       1. After setting up the NextAuth.Js on backend we will have to implement a middleware that will block the access to the protected pages of our application.
           
           This can be implemented by adding `middleware.ts` file in the root of our NextJs Application.
@@ -218,7 +218,7 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
           ```
           
   
-  - 1.3.2.3: Add functionality to connect wallet for the election organizer: To streamline the development of the connect wallet flow and make wallet connection experience smoother by adding functionality to generate a wallet on fly using email address, we can use walletconnect’s `web3modal` .
+#### 1.3.2.3: Add functionality to connect wallet for the election organizer: To streamline the development of the connect wallet flow and make wallet connection experience smoother by adding functionality to generate a wallet on fly using email address, we can use walletconnect’s `web3modal` .
       
       To set it up we have to:
       
@@ -312,7 +312,7 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
           
           ![Connect Wallet.png](assets/Connect_Wallet.png)
           
-  - 1.3.2.4: Using semaphore SDK to generate zero knowledge proofs on the frontend:
+#### 1.3.2.4: Using semaphore SDK to generate zero knowledge proofs on the frontend:
       
       What is Semaphore?
       
@@ -437,8 +437,8 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
                })
               ```
               
-- 1.3.3 Backend Implementation
-  - 1.3.3.1: Setup database with Prisma as ORM.
+### 1.3.3 Backend Implementation
+#### 1.3.3.1: Setup database with Prisma as ORM.
       - Database design: The database schema consists of four main tables: Users, Elections, Candidates, and Voter_Registrations.
           - The Users table stores information about all of our application's users, it includes their unique user_id, email, user_type (normal or election_creator), and wallet_address. The user_type field differentiates between regular users who can register to vote and users who can create elections. The wallet_address is used to connect the user's web3 wallet for creating elections.
           - The Elections table contains details about each election, such as its unique election_id, creator_id (referencing the Users table), contract_address of the associated smart contract, title, description,type, start_time, end_time, status, subscribed users and the election result.
@@ -547,7 +547,7 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
           
           This will allow us to easily query the database from our API routes and server components when needed.
           
-  - 1.3.3.2: Setup NextAuth.Js
+#### 1.3.3.2: Setup NextAuth.Js
       
       As we provide our users with two options to login/register: 
       
@@ -706,7 +706,7 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
           This route will catch all authentication related requests.
           
       - After this we will create server actions for `login` , `register` and `verify-email` that will be used from the corresponding pages on the client.
-  - 1.3.3.3: Handle user related routes
+  #### 1.3.3.3: Handle user related routes
       - Route to send proofs to the blockchain: `api/vote`
           
           ```tsx
@@ -742,7 +742,7 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
           - Route to register as a voter to the election: `api/election/[electionId]/register`
           - Route to subscribe  to get results of the election when declared  `api/elections/[electionId]/notify`
           - Route to approve a voter for election: `api/elections/[electionId]/approve`
-- 1.3.4 Smart Contract Interactions
+### 1.3.4 Smart Contract Interactions
   
   On the smart contract we will need to:
   
@@ -827,7 +827,7 @@ Assuming we are rewriting the client in Next.js, here is an overview of the tech
       
       ```
       
-- **1.4 Thought Process and Design Decisions:**
+## 1.4 Thought Process and Design Decisions:**
 - Why do we need a backend when all the data can be directly stored and fetched from the blockchain?
   
   We need a backend because we cannot rely on the blockchain to fetch all the information needed to render our UI efficiently. By maintaining a database to store necessary information, we can efficiently implement logic to protect routes on the frontend and handle user authentication using email addresses. This way, we do not need to fetch the user authentication status for every single user.
@@ -1157,12 +1157,73 @@ The current implementation of anonymous voting is limited to a single election t
 ## 4.3 Proposed Integration
 ### 4.3.1 Extending Smart Contracts (include code snippets)
 
-  To integrate anonymous voting with multiple election algorithms, some parts existing smart contracts need to be extended to make call to Semaphore Smart Contract
-  1. ElectionFactory
-  2. ElectionContract
+To integrate anonymous voting with multiple election algorithms, some parts existing smart contracts need to be extended to make call to Semaphore Smart Contract
 
 
-This will extend the support of anonymous voting for different election types.
+1. Election.sol: Add a new type in `ElectionInfo` struct, this will help us to keep track of the group (merkle tree) that we create on semaphore smart contract
+  ```
+struct ElectionInfo {
+        uint electionID;
+        string name;
+        string description;
+        uint startDate;
+        uint endDate;
+        bool electionType;
+        uint256 electionGroupId;  // used to create a group on semaphore smart contract
+    }
+  ```
+
+
+2. Use ISemaphore from the [Semaphore open source SDK](https://semaphore.pse.dev/) 
+  ```
+  import "@semaphore-protocol/contracts/interfaces/ISemaphore.sol";
+
+  contract Election {
+    // other variables as it is.
+      ISemaphore public semaphore;
+      ElectionInfo electionInfo;
+
+      constructor(ElectionInfo memory _electionInfo, /*...all other variables*/,ISemaphore _semaphore) {
+        electionInfo = _electionInfo;
+        semaphore = ISemaphore(_semaphore);
+        semaphore.createGroup(electionInfo.electionGroupId, 32, address(this)); // This will create  a new group in the semaphore contract, where identity commitment of all the approved voters will be added.
+        //other code as it is.
+    }
+  }
+```
+  3. In election contract add a function to add approved voters to the semaphore group
+```
+   function addVoter(uint256 identityCommitment) public {
+        semaphore.addMember(electionInfo.electionGroupId, identityCommitment);
+    }
+```
+
+4. And modify the vote function to first verify the proofs and then register the user vote.
+
+```
+function vote(
+        // all the other variables as it is.
+        uint256 _vote, // candidate id.
+        uint256 nullifierHash,
+        uint256 pollId,
+        uint256 merkleTreeRoot,
+        uint256[8] calldata proof
+    ) public {
+        semaphore.verifyProof(
+            groupId,
+            merkleTreeRoot,
+            _vote,
+            nullifierHash,
+            pollId,
+            proof
+        );
+        ballot.vote(address(0),_vote, weight,voteArr);
+        // other logic as it is.
+    }
+```
+Making this changes will extend the support of anonymous voting for different election types.
+
+
 ### 4.3.2 Implementing EIP 1167 to save gas during creation of new elections
 
 
@@ -1212,10 +1273,79 @@ When we call updateNum on contracts C, It delegates calls to Contract B which ag
 ### 4.4.1 Unit Testing (include sample test cases)
 Unit tests will be written to verify the functionality of individual smart contract functions. Sample test cases include:
 
-- Test case 1: Verify that only eligible voters can cast votes anonymously.
+- Test case 1: Verify that voters identity commitment are correctly added to the semaphore smart contract
+```
+  describe("# addVoter", () => {
+        it("Should allow adding eligible voters", async () => {
+            for await (const user of users) {
+                const transaction = electionContract.addVoter(user.commitment)
+                group.addMember(user.commitment)
+
+                await expect(transaction)
+                    .to.emit(semaphoreContract, "MemberAdded")
+                    .withArgs(groupId, group.members.length - 1, user.commitment, group.root)
+            }
+        })
+    })
+
+```
 - Test case 2: Ensure that the vote casting function correctly records anonymous votes.
+```
+describe("# vote", () => {
+        const wasmFilePath = `${config.paths.build["snark-artifacts"]}/semaphore.wasm`
+        const zkeyFilePath = `${config.paths.build["snark-artifacts"]}/semaphore.zkey`
+
+        it("Should allow eligible voters to cast votes anonymously", async () => {
+            const candidateId = 1
+            await electionContract.addCandidate(1, ethers.utils.formatBytes32String("Candidate 1"))
+
+            const fullProof = await generateProof(users[1], group, groupId, candidateId, {
+                wasmFilePath,
+                zkeyFilePath
+            })
+
+            const transaction = electionContract.vote(
+                candidateId,
+                fullProof.nullifierHash,
+                1,
+                fullProof.merkleTreeRoot,
+                fullProof.proof
+            )
+
+            await expect(transaction)
+                .to.emit(semaphoreContract, "ProofVerified")
+                .withArgs(groupId, fullProof.merkleTreeRoot, fullProof.nullifierHash, 1, fullProof.signal)
+        })
+
+        it("Should not allow non-eligible voters to cast votes", async () => {
+            const nonEligibleUser = new Identity()
+            const candidateId = 1
+
+            const fullProof = await generateProof(nonEligibleUser, group, groupId, candidateId, {
+                wasmFilePath,
+                zkeyFilePath
+            })
+
+            await expect(oneVoteContract.vote(
+                candidateId,
+                fullProof.nullifierHash,
+                1,
+                fullProof.merkleTreeRoot,
+                fullProof.proof  
+            )).to.be.revertedWith("Semaphore: caller is not a member of the group")
+        })
+    })
+```
 - Test case 3: Validate that the result calculation function accurately tallies anonymous votes.
-- Test case 4: Test the integration of anonymous voting with different election types.
+```
+    describe("# getVoteCount", () => {
+        it("Should return the correct anonymous vote count", async () => {
+            const candidateId = 1
+            const voteCount = await electionContract.getVoteCount(candidateId)
+            expect(voteCount).to.equal(1)
+        })
+    })
+```
 
 I will aim for as extensive test coverage as possible.
 
@@ -1233,15 +1363,218 @@ One consideration is that EIP 1167 proxies have no scope for upgradability, as t
 # 5. Adding New Election Types
 
 ## 5.1 Motivation and Goals
+The primary goal for adding new election types to the Agora Blockchain DApp is to enhance the platform's versatility and provide users with a wider range of voting options. By adding these alternative voting methods, the DApp can cater to a large spectrum of decision-making scenarios and better meet the diverse needs of our user base.
+
 ## 5.2 Proposed New Election Types
 ### 5.2.1 Approval Voting
-#### 5.2.1.1 Algorithm Overview (include pseudocode)
+Approval voting is a voting system where each voter can approve of multiple candidates. The candidate with the most approvals wins the election. 
+#### 5.2.1.1 Algorithm Overview 
+Here's the pseudocode for the approval voting algorithm:
+```
+for each voter in voters:
+    voter selects candidates they approve
+    for each approved candidate:
+        increment candidate's score
+
+winner = candidate with highest score
+
+```
 #### 5.2.1.2 Smart Contract Implementation
+The smart contract for approval voting can be implemented using the following two functions:
+
+```solidity
+function vote(uint256[] memory approvedCandidates) public {
+    require(isVoterAuthorized[msg.sender],"You are not authorized to vote");
+    for(uint256 i=0;i<voterList.length;i++){
+        if(voterList[i].addr==msg.sender){
+            require(!voterList[i].voted,"You have already voted");
+            voterList[i].voted=true;
+            for(uint256 j=0;j<approvedCandidates.length;j++){
+                require(approvedCandidates[j]>0 && approvedCandidates[j]<=candidateCount,"Invalid candidate");
+                availableCandidate[approvedCandidates[j]].score++;
+            }
+            break;
+        }
+    }
+}
+
+function getWinner() public view returns(string memory){
+    uint256 maxScore=0;
+    uint256 maxScoreCandidate=0;
+    for(uint256 i=1;i<=candidateCount;i++){
+        if(availableCandidate[i].score>maxScore){
+            maxScore=availableCandidate[i].score;
+            maxScoreCandidate=i;
+        }
+    }
+    return availableCandidate[maxScoreCandidate].name;
+}
+```
+The `vote` function allows authorized voters to approve multiple candidates by passing an array of candidate IDs. The `getWinner` function determines the winner by finding the candidate with the maximum score.
+
+
 #### 5.2.1.3 Frontend Integration
+On the frontend, a checkbox-based candidate selection component can be used to allow voters to choose multiple candidates they approve. Here's an example React component:
+```jsx
+function CandidateSelection() {
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  const handleSelect = (id) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Candidates</h2>
+      <ul>
+        {candidates.map((candidate) => (
+          <li key={candidate.id}>
+            <label>
+              <input
+                type="checkbox"
+                checked={selectedIds.includes(candidate.id)}
+                onChange={() => handleSelect(candidate.id)}
+              />
+              {candidate.name}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+The selected candidate IDs can be submitted to the smart contract using ethers.js:
+
+```jsx
+async function submitCandidate(selectedCandidates){
+    if (typeof window.ethereum !== "undefined") {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            contractAddress,
+            contractABI,
+            signer
+        );
+        try {
+            const res = await contract.vote(selectedCandidates);
+            await provider.waitForTransaction(res.hash);
+            console.log("Res", res);
+        } catch (err) {
+            console.log("Error", err);
+        }
+    }
+}
+```
 ### 5.2.2 Quadratic Voting
-#### 5.2.2.1 Algorithm Overview (include mathematical formulas)
+Quadratic voting allows voters to express the strength of their preferences by allocating voting credits. The cost of casting additional votes for a candidate increases quadratically. The algorithm can be summarized as follows:
+#### 5.2.2.1 Algorithm Overview 
+For each voter:
+- Allocate a fixed number of voting credits (e.g., 100)
+- Allow the voter to distribute credits among candidates
+- The cost of casting `n` votes for a candidate is `n^2` credits
+
+The candidate with the highest total votes wins.
 #### 5.2.2.2 Smart Contract Implementation
-#### 5.2.2.3 Frontend Integration
+```solidity
+struct Voter{
+    string name;
+    address addr;
+    uint256 votingCredits;
+}
+
+Voter[] public allVoters;
+mapping(address=>bool) public isVoterApproved;
+mapping(uint=>uint) public votes;
+
+function addVoter(string memory name,address addr) public /*onlyOrganizer*/ {
+    isVoterApproved[addr]=true;
+    allVoters.push(Voter(name,addr,100));
+}
+
+function vote(uint256 candidateId,uint256 numOfVotes) public {
+    require(isVoterApproved[msg.sender],"You are not approved to vote");
+    for(uint x=1;x<=allVoters.length;x++){
+        if(allVoter[x].addr==msg.sender){
+            uint creditsNeeded=(numOfVotes*numOfVotes);
+            require(creditsNeeded<=allVoter[x].votingCredits,"You do not have enough voting credits");
+            allVoter[x].votingCredits-=creditsNeeded;
+            for(uint i=1;i<=numOfVotes;i++){
+                votes[candidateId]++;
+            }
+        }
+    }
+}
+```
+The `addVoter` function approves a voter and allocates them 100 voting credits. The `vote` function allows voters to cast a specified number of votes for a candidate, deducting the quadratic cost from their voting credits.
+#### 5.2.2.3 Frontend IntegrationOn the frontend, a state can be used to store the candidate ID and the number of votes a voter wants to cast for each candidate:
+
+```jsx
+const [votingData,setVotingData]=useState([]);
+
+//Example data
+[
+    {
+        candidateId: 1,
+        numberOfVotes: 4,
+    },
+    {
+        candidateId: 2,
+        numberOfVotes: 3,
+    },
+    {
+        candidateId: 3,
+        numberOfVotes: 2,
+    },
+]
+```
+
+When the voter submits the votes, the `vote` function can be called for each candidate with the corresponding number of votes:
+
+```jsx
+async function handleSubmit(votingData){
+    for(let x = 0;x<votingData.length;x++){
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const contract = new ethers.Contract(
+                contractAddress,
+                contractABI,
+                signer
+            );
+            try {
+                const res = await contract.vote(votingData[x].candidateId,votingData[x].numberOfVotes);
+                await provider.waitForTransaction(res.hash);
+                console.log("Res", res);
+            } catch (err) {
+                console.log("Error", err);
+            }
+        }
+    }
+}
+```
+## 5.3 Thought Process and Voting Algorithm Selection
+**Why approval voting?**
+
+
+Approval voting allows voters to express support for multiple candidates, providing a more nuanced representation of voter preferences compared to the traditional single-choice voting system. 
+It also ensures that the winner has broad support from the electorate.
+
+
+**Why quadratic voting?**
+
+
+Quadratic voting enables voters to express the intensity of their preferences by allocating voting credits, offering a more granular approach to preference aggregation.
+It has been shown to achieve optimal efficiency in terms of maximizing social welfare. By aligning the cost of casting votes with the intensity of voter preferences, it incentivizes honest preference revelation and leads to more efficient collective decision-making.
+
+
+*By showcasing the practical implementation of this unique voting methods, our DApp can contribute to the broader discussion on blockchain governance and inspire further experimentation and adoption.*
+
 
 # Outcomes
 
