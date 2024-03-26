@@ -64,7 +64,7 @@ By implementing these enhancements, the Election D-App will become more user-fri
 Why I choose Agora Blockchain?
 I have been actively writing code for around 2.5 years. Since the beginning, one of my main goals has been to contribute to the betterment of the internet and make this digital revolution more accessible. With this aim in mind, I discovered blockchain technology about 1.5 years ago. I learned how it can solve pressing internet challenges related to trust, centralization, and transparency. 
 
-While exploring blockchain use cases, I realized that voting is one of the most relevant applications. In fact, the first major project I worked on was an election dapp: https://devpost.com/software/decentralized-voting-system-v83rphin late 2022 as part of chainlink fall hackathon.
+While exploring blockchain use cases, I realized that voting is one of the most relevant applications. In fact, the first major project I worked on was an election dapp: https://devpost.com/software/decentralized-voting-system-v83rphin in late 2022 as part of Chainlink fall hackathon.
 
 Last year, while exploring opportunities to participate in Google Summer of Code, I discovered AOSSIE and Agora Blockchain. I was thrilled to find a project that aligned with my vision of leveraging blockchain for secure and transparent voting.
 
@@ -87,7 +87,7 @@ Furthermore, my experience in collaborating with diverse teams through open-sour
 ## Past Experience In Software Development
 
 ### Deduplication layer on Filecoin (ETHIndia 2022 Winner)
-It solves problem of duplication IPFS, Using it if multiple users are storing the same file on IPFS, they all can share the cost of storing the file and there will be only copy (excluding fault-tolerance requirement) of that file exsists in the network.
+It solves problem of duplication IPFS, Using it if multiple users are storing the same file on IPFS, they all can share the cost of storing the file and there will be only copy (excluding fault-tolerance requirement) of that file exists in the network.
 
 It uses: Solidity, NodeJs, Typescript, ReactJs, Hardhat, IPFS/Filecoin
 https://devfolio.co/projects/deduplication-layer-on-filecoin-4bb1
@@ -107,7 +107,7 @@ and trade AI characters as NFTs. These AI characters learn
 and evolve through conversations – the more you interact
 with them, the smarter and more engaging they become.
 
-It uses: solidity, openai, nextjs, ai, ethereum, langchain, redis, upstash
+It uses: Solitity, Langchain, NextJs, Hardhat, Langchain, Redis, uUpstash
 https://ethglobal.com/showcase/personatokens-ai-szkan
 
 ### SuperWallet (ETHOnline hackathon 2023 Winner)
@@ -116,14 +116,14 @@ system, allowing users to initiate payments using
 coins/tokens across multiple chains simultaneously with
 ease
 
-It uses: blockchain, ethereum, payment, multichain, axelar general message
+It uses: Solidity, NextJs, Biconony SDK, Particle Auth, Axelar General Message Passing Gateway
 passing
 https://ethglobal.com/showcase/superwallet-wvqtj
 
 ### PeerPlay (HackFS 2023 Winner)
 Blockchain based NFT gated video sharing platform.
 
-It uses: video sharing, blockchain, push protocol, livepeer, ens
+It uses: Solidity, Hardhat, ENS, NextJs, Push Protocol, Web Sockets
 https://ethglobal.com/showcase/peerplay-jqwpa
 
 ### Contributions to Agora Blockchain
@@ -193,7 +193,7 @@ To make our application more accessible we can enable functionality that will al
 6. After approval, when the voting period starts, the user can submit their vote:
    1. When user clicks on vote, their Identity Commitment is again generated on the backend using their email and secret key, which then fetched to the client to generate ZK proofs.
    2. Using the users identity commitment and the election Id the ZK proofs are generated on the client.
-   3. Proofs are submitted to backend which works as a re-layer in this case, from here the proofs are submitted to the blockchain in a transaction.
+   3. Proofs are submitted to backend which works as a middle layer in this case, from here the proofs are submitted to the blockchain in a transaction.
    4. Blockchain verifies the ZK proofs to confirm the user is an approved voter who hasn't yet voted. If valid, their vote is registered.
 7. Users can subscribe to an election to be notified of the results via email once it concludes.
   
@@ -298,7 +298,7 @@ This can be implemented by adding `middleware.ts` file in the root of our NextJs
  }
  ```
           
-1. To be able use/display users information throughout the client, we will need to use the `useSession` hook, for that first we have to expose the session context, **`<SessionProvider />`**, at the top level of our application:
+1. To be able to use/display users information throughout the client, we will need to use the `useSession` hook, for that first we have to expose the session context, **`<SessionProvider />`**, at the top level of our application:
  
  ```tsx
  export default async function RootLayout({
@@ -317,7 +317,7 @@ This can be implemented by adding `middleware.ts` file in the root of our NextJs
  }
  ```
           
-2. Then we can use the user information in any component like:
+2. Then we can use the user information in any component like this:
           
 ```tsx
 import { useSession } from "next-auth/react"
