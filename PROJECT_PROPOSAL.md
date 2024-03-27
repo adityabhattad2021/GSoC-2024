@@ -54,7 +54,7 @@ Here is a summary of the proposed improvements:
 1. **Abstraction of Blockchain**: The goal is to partially abstract the blockchain part from the election administrator and fully abstract it from the voter. This will allow users to enjoy the benefits of blockchain technology, such as immutability, without having to worry about their wallet address or blockchain transactions. The user experience will be native and completely anonymous and secure.
 2. **Election Subscription**: Allow voters to subscribe to election results and receive notifications when elections conclude, keeping them engaged and informed.
 3. **Code Refactoring**: Rewrite the Client Side Code in `Nextjs`/ `Typescript` and Organize the Codebase: The current repository is divided into several different folders, such as client, server, `clientAnonymous`, and `serverAnonymous`. Some libraries used in the client, like `rimble-ui`and `libsemaphore`, are long deprecated and not actively maintained anymore. This leads to a poor developer experience and slows down development due to conflicts. Rewriting the client and organizing the codebase properly can solve these issues.
-4. **Connect Anonymous Voting to Multiple Voting Algorithms and Extensively Test Smart Contracts**: Currently, anonymous voting only supports normal general election types. It needs to be integrated with other smart contracts in the codebase that have implemented multiple election algorithms. To gain the trust of users and avoid bugs during usage, an extensive test suite that tests every aspect of the smart contract is required. This will make the smart contract much more reliable.
+4. **Connect Anonymous Voting to Multiple Voting Algorithms and Extensively Test Smart Contracts**: Currently, anonymous voting only supports general election type. It needs to be integrated with other smart contracts in the codebase that have implemented multiple election algorithms. To gain the trust of users and avoid bugs during usage, an extensive test suite that tests every aspect of the smart contract is required. This will make the smart contract much more reliable.
 5. **Add More Election Types**: There is still room to add more election types, such as approval voting and quadratic voting, to give users more choices.
 
 By implementing these enhancements, the Election D-App will become more user-friendly, secure, and accessible to a wider audience. The proposed changes will significantly improve the user experience, increase trust in the platform, and contribute to the overall adoption of the project.
@@ -869,12 +869,12 @@ export async function POST(req:Request){
 On the smart contract we will need to:
   
 <aside>
-💡 For sake of **explanation** we are considering OneVote.sol as an entry point contract and  VotingProcess.sol as the election contract, after integration with all the other election contracts which are implemented with diamond proxy, the functions we are modify will change.
+💡 For sake of explanation we are considering OneVote.sol as an entry point contract and  VotingProcess.sol as the election contract, after integration with all the other election contracts which are implemented with diamond proxy, the functions we are modifying here will change.
 
 </aside>
   
 <aside>
-💡 We are using contracts provided with semaphore SDK: these are set of opensource utility smart contracts, which are well audited making them appropriately **reliable**.
+💡 We are using contracts provided with semaphore SDK: these are set of open source utility smart contracts, which are well audited making them appropriately reliable.
 
 </aside>
   
@@ -959,7 +959,7 @@ function vote(
   
 #### Why not directly submit proofs from the client to the blockchain?
   1. Blockchain abstraction: If we send the proofs directly to the blockchain, it will require users to have a wallet and interact with the blockchain. This user experience will alienate many potential users who are not familiar with blockchain technology.
-  2. User anonymity is compromised: Even if we choose to make connecting a wallet necessary for voters and have them make the vote call from the client, the transaction can still be linked to their wallet address, which is exactly what we are trying to avoid with our anonymous voting flow. Using the backend as a middle layer to send proofs, we use a common private key to send proofs for all users. This way, the transaction will only be linked to the common wallet and not the user, resulting in true user anonymity.
+  2. User anonymity is compromised: Even if we choose to make connecting a wallet mandatory for voters and have them make the vote call from the client, the transaction can still be linked to their wallet address, through which it can be further linked to them, which is exactly what we are trying to avoid with our anonymous voting flow. Using the backend as a middle layer to send proofs, we use a common private key to send proofs for all users. This way, the transaction will only be linked to the common wallet and not the user, resulting in true user anonymity.
    
 #### Why did I choose to exclude user KYC and have the election admin approve users manually?
   1. The scope of our application should initially be small organizations, communities, etc. Here, the verification requirements can vary greatly for different types of users, and this cannot be anyways covered by basic KYC all the time.
@@ -990,12 +990,12 @@ The primary goals of this feature are:
 1. **Election Creation**: When an election is created, the election details including the end date/time are stored in the database.
 2. **Subscription**: Voters can subscribe to elections they are interested in through the UI.
 3. **Cron Job**: A single cron job is set up to run at a frequent interval, such as every minute. This cron job does the following:
-  1. Queries the database to check for any elections that have ended but have not had their results calculated yet.
-  2. For each ended election found:
-      - Calls the **`calculateResult`** function on the smart contract to calculate the results.
-      - Updates the election status and results in the database.
-      - Retrieves the list of subscribed voters for that election from the database.
-      - Sends email notifications to the subscribed voters using nodemailer, informing them that the election has ended and the results are available.
+     1. Queries the database to check for any elections that have ended but have not had their results calculated yet.
+     2. For each ended election found:
+         - Calls the **`calculateResult`** function on the smart contract to calculate the results.
+         - Updates the election status and results in the database.
+         - Retrieves the list of subscribed voters for that election from the database.
+         - Sends email notifications to the subscribed voters using nodemailer, informing them that the election has ended and the results are available.
 4. **View Results**:  Users can view the election results by clicking on a link in the email notification, which takes them to the election page showing the results and stats.
   
   ![notification flow (1).png](assets/notification_flow_(1).png)
@@ -1352,13 +1352,14 @@ Making this changes will extend the support of anonymous voting for different el
 ### 4.3.2 Implementing EIP 1167 to save gas during creation of new elections
 
 
-Deploying multiple instances of the election implementation contract for different election types can be gas-intensive. To optimize gas consumption, I propose to use the EIP 1167 (Minimal Proxy Contract) standard. EIP 1167 allows for the creation of lightweight proxy contracts that delegate calls to a master contract, reducing the gas cost of deploying multiple instances.
-It is different proxy contract, the when these contract create (cloned) using the EIP1167 standard, while performing any function on the implementation contract, they do not have to perform a lookup operation for the address of implementation smart contract, as while being created the address of the implementation contract is added to byte code of this proxys, which further saves gas.
-By utilizing this standard, the Agora Blockchain DApp can efficiently deploy anonymous voting-enabled election contracts while minimizing gas expenses for the election orgainzer.
+Deploying multiple instances of the election implementation contract for different elections can be gas-intensive. To optimize gas consumption, I propose to use the EIP 1167 (Minimal Proxy Contract) standard. EIP 1167 allows for the creation of lightweight proxy contracts that delegate calls to a master contract, reducing the gas cost of deploying multiple instances.
+
+It is a proxy contract, the when these contracts are created (cloned) using the EIP1167 standard, while performing any function on the implementation contract, they do not have to perform a lookup operation for the address of implementation smart contract, because while being created the address of the implementation contract is added to byte code of this proxy smart contract, which further saves gas.
+By utilizing this standard, the Agora Blockchain DApp can efficiently deploy anonymous voting-enabled election contracts while minimizing gas expenses for the election organizer.
 
 ![Proposed Smart Contract Structure](<assets/new smart contract arch.png>)
 
-In this structure, there is chaining of delegate calls, first from proxy to election implementation contract and then from election implementation contract to ballot contract and result calulator contract.
+In this structure, there is chaining of delegate calls, first from proxy to election implementation contract and then from election implementation contract to ballot contract and result calculator contract.
 ```
 pragma solidity ^0.8.0;
 
@@ -1477,13 +1478,13 @@ I will aim for as extensive test coverage as possible.
 ### 4.5 Thought Process and Design Decisions
 #### There is already a Diamond Proxy Structure Implementation Present in the codebase, why not use it?
 
-As we are handling user auth and election storage/fetching using a seperate backend, It removes lot of facets of the diamond proxy pattern, further more I plan to add the addresses of the ballot and the result calculator contract in the election implementation contract itself, and will conditionally delegate call the ballot and result calculator contract from the election implementation contract itself, so this eliminate the need for having get ballot and result calculator facet as well. . With only one function remaining in the election factory, using the Diamond Proxy contract would unnecessarily increase complexity.
+As we are handling user auth and election storage/fetching using a separate backend, It removes lot of facets of the diamond proxy pattern, further more I plan to add the addresses of the ballot and the result calculator contract in the election implementation contract itself, and will conditionally delegate call to the ballot and result calculator contract from the election implementation contract, so this eliminate the need for having get ballot and result calculator facet as well. With only one function remaining in the election factory, using the Diamond Proxy contract would unnecessarily increase complexity.
 
 #### Why choose EIP1167 instead of normal proxy contract?
 
 
-EIP1167 are more gas efficient than normal proxy contract, as when a proxy contract has to make a call to implementation contracts it first has to perform a lookup in its storage for the implementation contract address, which costs gas, EIP1167 proxys avoid this as the implementation contract address is added to the proxy's byte code while creating it, this way the proxies have to perform no lookup operation while calling the implementaion smart contracts.
-One consideration is that EIP 1167 proxies have no scope for upgradability, as they are permanently bound to the same implementation contract. However, in our use case, once a user creates an election, there should be no need for upgrades. Additionally, these contracts become obsolete after the elections conclude.
+EIP1167 are more gas efficient than normal proxy contract, as when a proxy contract has to make a call to implementation contracts it first has to perform a lookup in its storage for the implementation contract address, which costs gas, EIP1167 proxies avoid this as the implementation contract address is added to the proxy's byte code while creating it, this way the proxies have to perform no lookup operation while calling the implementation smart contracts.
+One consideration is that EIP 1167 proxies have no scope for upgradeability, as they are permanently bound to the same implementation contract. However, in our use case, once a user creates an election, there should be no need for upgrades. Additionally, these contracts become obsolete after the elections conclude.
 
 # 5. Adding New Election Types
 
@@ -1494,7 +1495,7 @@ The primary goal for adding new election types to the Agora Blockchain DApp is t
 ### 5.2.1 Approval Voting
 Approval voting is a voting system where each voter can approve of multiple candidates. The candidate with the most approvals wins the election. 
 #### 5.2.1.1 Algorithm Overview 
-Here's the pseudocode for the approval voting algorithm:
+Here's the pseudo code for the approval voting algorithm:
 ```
 for each voter in voters:
     voter selects candidates they approve
@@ -1637,7 +1638,7 @@ function vote(uint256 candidateId,uint256 numOfVotes) public {
 }
 ```
 The `addVoter` function approves a voter and allocates them 100 voting credits. The `vote` function allows voters to cast a specified number of votes for a candidate, deducting the quadratic cost from their voting credits.
-#### 5.2.2.3 Frontend IntegrationOn the frontend, a state can be used to store the candidate ID and the number of votes a voter wants to cast for each candidate:
+#### 5.2.2.3 Frontend Integration: On the frontend, a state can be used to store the candidate ID and the number of votes a voter wants to cast for each candidate:
 
 ```jsx
 const [votingData,setVotingData]=useState([]);
@@ -1659,7 +1660,7 @@ const [votingData,setVotingData]=useState([]);
 ]
 ```
 
-When the voter submits the votes, the `vote` function can be called for each candidate with the corresponding number of votes:
+When the voter submits the votes, the `vote` function can be called in which, there is a for executing for each candidate with the corresponding number of votes:
 
 ```jsx
 async function handleSubmit(votingData){
@@ -1738,8 +1739,8 @@ Finally, I am committed to the long-term success of this project and will contin
 
 
 ### Week 2 and Week 3 (June 5 - June 18)
-- Itegrate all the voting algorithms present in the codebase with the anonymous voting system.
-- Modify relavent the smart contracts to Implementing EIP 1167 .
+- Integrate all the voting algorithms present in the codebase with the anonymous voting system.
+- Modify relevant the smart contracts to Implementing EIP 1167 standard.
 - Write comprehensive tests for the smart contracts to ensure their correctness and security.
 
 ### Week 4 (June 19 - June 25)
@@ -1756,20 +1757,18 @@ Finally, I am committed to the long-term success of this project and will contin
 ### Week 6 July 2- July 8)
 
 - Implement the suggestions given by the mentor.
-- Prepare a documentation outlining the project made so far.
-- Submit the report for evaluation and discuss any feedback received from the mentors.
+- Make a roadmap for implementing features to abstract the blockchain interactions for the end user feature.
 
 ### Week 7 (July 9 - July 15)
 
-- Abstract Blockchain Part from Election Administrator and Voter
 - Work on abstracting the blockchain part from the election administrator, making it easier for them to manage elections without worrying about the underlying blockchain technology.
-- Write unit tests.
+- Write unit tests to test all the implemented features.
 
 
 ### Week 8 (July 16 - July 22)
 
 - Similarly, abstract the blockchain part from the voter, ensuring a native, anonymous, and secure user experience.
-- Write unit tests.
+- Write unit tests to test all the implemented features.
 
 ### Week 9 (July 23 - July 29)
 
@@ -1779,21 +1778,20 @@ Finally, I am committed to the long-term success of this project and will contin
 ### Week 10 (July 30 - August 4)
 
 - Continue working on the notifications feature.
-- Test and refactor the implemented features regularly.
+- Test and refactor the implemented features.
 
 
 ### Week 11 (August 4 - August 10)
 
-- Fully implement election subscription feature, allowing users to receive notifications about upcoming elections and relevant updates.
+- Fully implement election subscription feature, allowing users to receive notifications about upcoming elections.
 - Ensure that the subscription feature is secure, user-friendly, and respects user privacy.
-
 
 ### Week 12 (August 11 - August 17)
 - Fix any bugs and make final refactors.
 - Add extensive documentation to the readme of the project.
 
 ### Week 13 (August 17 - August 23)
-- Buffer week to makeup for delays (If any) in the initial plan.
+- Buffer week to makeup for any unexpected delays in the above timeline.
 - Final GSoC 2024 Submission.
 
 
